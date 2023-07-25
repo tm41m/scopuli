@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: product_metrics_timeseries
+    description: |
+      A calendar day timeseries table for product metrics. This table will eventually be a hypercube when additional dimensions are
+      injected into the group by statement.
+    columns:
+      - name: calendar_date
