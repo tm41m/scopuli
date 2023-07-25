@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: aethervest
+    database: scopuli_prod
+    schema: aethervest_src  
+    tables:
+      - name: products
+      - name: product_listings
+      - name: product_listings_history
+      - name: retailers
+      - name: stores
