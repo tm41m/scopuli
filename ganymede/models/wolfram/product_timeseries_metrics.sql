@@ -9,6 +9,7 @@ with all_calendar_dates as (
 )
 select
     acd.val as calendar_date
+    , {{ raw_region_to_province("s.store_address->>'addressRegion'")}} as region_code
     , plh.product_id
     , plh.currency
     , plh.unit
@@ -17,4 +18,11 @@ select
 from all_calendar_dates acd
 left join {{ source('aethervest', 'product_listings_history') }} plh
   on acd.val > plh.effective_from and acd.val <= coalesce(plh.effective_to, '9999-01-01'::timestamp)
-group by 1, 2, 3, 4
+join {{ source('aethervest', 'stores')}} s
+  on plh.store_id = s.id
+group by
+  grouping sets (
+    (1,2,3,4,5)
+    ,(1,3,4,5)
+  )
+

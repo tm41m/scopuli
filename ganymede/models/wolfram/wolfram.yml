@@ -8,3 +8,12 @@ models:
       injected into the group by statement.
     columns:
       - name: calendar_date
+      - name: region_code
+        description: |
+          The two letter international standard denomination for the country's subdivisions established by the ISO-3166-2 code.
+          This can be a province, territory, state etc. Uses `raw_region_to_province` macro for parsing of the raw region code.
+          If this accepted values test breaks, it means that there was a new region code detected and the logic should be updated
+          to handle the new values if possible.
+        tests:
+          - accepted_values:
+              values: ['NL', 'PE', 'NS', 'NB', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU']
