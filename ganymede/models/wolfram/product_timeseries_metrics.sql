@@ -31,5 +31,5 @@ with all_calendar_dates as (
 )
 select
   *
-  , md5(concat_ws('|', calendar_date, coalesce(region_code, ''), product_id))
+  , md5(concat_ws('|', calendar_date, coalesce(region_code, ''), product_id)) as md5_key
 from transform_1
