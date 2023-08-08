@@ -3,3 +3,4 @@ venv/
 .env.dev
 logs/
 *.gitkeep
+*.user.yml
