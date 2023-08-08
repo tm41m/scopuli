@@ -15,9 +15,9 @@ with all_calendar_dates as (
       , plh.currency
       , plh.unit
       , avg(plh.price) as avg_price
-      , null as avg_price_chng
+      , null::numeric(32,2) as avg_price_chng
       , count(1) as product_listings
-      , null as product_listings_rtn
+      , null::bigint as product_listings_rtn
   from all_calendar_dates acd
   left join {{ source('aethervest', 'product_listings_history') }} plh
     on acd.val > plh.effective_from and acd.val <= coalesce(plh.effective_to, '9999-01-01'::timestamp)
