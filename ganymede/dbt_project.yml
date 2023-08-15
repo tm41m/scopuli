@@ -32,7 +32,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   ganymede:
+    stahl:
+      schema: stahl
+      +post-hook: grant select on all tables in schema stahl to daikon
     wolfram:
-      +schmema: wolfram
+      schema: wolfram
       +materialized: view
       +post-hook: grant select on all tables in schema wolfram to daikon
