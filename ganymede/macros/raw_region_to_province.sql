@@ -13,6 +13,7 @@
         when {{column_name}} in ('Yukon') then 'YT'
         when {{column_name}} in ('Saskatchewan') then 'SK'
         when {{column_name}} in ('Nunavut') then 'NU'
+        when {{column_name}} in ('Canada') then null
         else 'Unknown'
     end
 {% endmacro %}
