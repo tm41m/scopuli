@@ -1,4 +1,4 @@
-{{ config(materialized='view', schema='stahl') }}
+{{ config(materialized='table', schema='stahl') }}
 
 select
   ("REF_DATE" || '-01')::date as calender_date
