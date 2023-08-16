@@ -39,4 +39,5 @@ select
   , previous_price::numeric(32,2) as previous_price
   , ((price - previous_price) / previous_price)::numeric(32,4) as price_chng
   , r_dguid::text as r_dguid
+  , md5(concat_ws('|', calendar_date, time_grain, coalesce(region_code, ''), r_product_name)) as md5_key
 from transform_1
