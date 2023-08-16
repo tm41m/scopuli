@@ -27,6 +27,16 @@ with transform_1 as (
   from {{ source('aethervest', 'statcan_food_prices') }}
 )
 select
-  *
-  , (price - previous_price) / previous_price as price_chng 
+  calendar_date::date as calendar_date
+  , time_grain::text as time_grain
+  , region_code::char(2) as region_code
+  , r_product_name::text as r_product_name
+  , product_name::text as product_name
+  , amount::numeric(32,2) as amount
+  , unit::text as unit
+  , currency::char(3) as currency
+  , price::numeric(32,2) as price
+  , previous_price::numeric(32,2) as previous_price
+  , ((price - previous_price) / previous_price)::numeric(32,4) as price_chng
+  , r_dguid::text as r_dguid
 from transform_1
