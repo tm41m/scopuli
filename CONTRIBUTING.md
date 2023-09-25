@@ -40,3 +40,5 @@ dbt debug --target local
 
 19:17:28  All checks passed!
 ```
+
+6. To debug further, you can try to shell into the postgres with `make local-db-shell`
