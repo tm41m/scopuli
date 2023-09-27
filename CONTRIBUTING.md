@@ -8,7 +8,7 @@ This guide was written for `python 3.8.0`. To set up a local environment for thi
 
 2. Ask the admin @tm41m for credentials to your personal postgres development database and have your ip whitelisted to access the VPC network.
 
-3. Copy the `env.sample` file into a new file called `env.local` and replace the variable's values with your personal credentials. Run `source .env.local`.
+3. Copy the `.env.sample` file into a new file called `.env.local` and replace the variable's values with your personal credentials. Run `source .env.local`.
 
 4. Paste the `profiles.yml` to `~/.dbt/`
 
