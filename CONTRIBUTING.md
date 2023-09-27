@@ -2,15 +2,15 @@
 
 ## Configuring the Environment
 
-This guide was written for `python 3.8.0`. To set up a local environment for this project and have source (`src`) mirror production state, you will have to:
+This guide was written for `python 3.8.0`. To set up a local environment for this project and have source (`*_src` schemas) mirror production state, you will have to:
 
-1. Create a virtual environment in the root folder of the project with `python3 -m venv venv`. Activate the environment with `source venv/bin/activate` and `pip install dbt-core==1.5.2`.
+1. Create a virtual environment in the root folder of the project with `python3 -m venv venv`. Activate the environment with `source venv/bin/activate` and `pip install dbt-core==1.5.2 dbt-postgres==1.5.2`.
 
 2. Ask the admin @tm41m for credentials to your personal postgres development database and have your ip whitelisted to access the VPC network.
 
-3. Copy the `.env.sample` file into a new file called `.env.local` and replace the variable's values with your personal credentials. Run `source .env.local`.
+3. Create the file `.env.local` in the root directory of the project and copy the contents of `env.sample` file into it. Replace the variables with your personal credentials securely shared with you from the previous step. Run `source .env.local`.
 
-4. Paste the `profiles.yml` to `~/.dbt/`
+4. Create the directory `~/.dbt/` if it does not exist already and copy `profiles.yml` into the folder. 
 
 5. Run `dbt debug`, your output should look something like this - 
 
@@ -41,4 +41,29 @@ dbt debug --target local
 19:17:28  All checks passed!
 ```
 
-6. To debug further, you can try to shell into the postgres with `make local-db-shell`
+6. To debug further, you can try to shell into the postgres with `make local-db-shell`.
+
+## Project Structure
+
+```
+scopuli
+  |
+  --> ganymede -- The dbt project for building analytics describing quality, cost of living and consumer prices.
+        |
+        --> models -- Transformations go here, there's another level of organization below
+             |
+             --> stahl (steel) -- This subdirectory contains formatted data without much aggregation. In other words, we store all transformations that clean the data so that it has necessary formats needed for the next level of transformation.
+             |
+             --> wolfram (tungstun) -- This subdirectory contains all transformations that are ready to be consumed by the end-users. As an heuristic, if an API can be pointed to this model, then it should go in this folder. 
+        |
+        --> macros -- Re-usable functions that can be called to compile blocks of sql
+        |
+        --> seeds -- Used for storing smaller tabular files that can be referenced as sources
+        |
+        --> snapshots -- SCD II state captures of objects defined in dbt go here 
+        |
+        --> tests -- Custom tests go here
+  |
+  --> migrations -- Migrations to be run against a postgres database to sync sources and seed the raw data
+
+```
