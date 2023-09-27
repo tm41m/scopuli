@@ -3,6 +3,11 @@ prod-db-shell:
 	psql -U ${SCOPULI_PROD_PG_USERNAME} -h ${SCOPULI_PROD_PG_HOST} \
 	-p ${SCOPULI_PROD_PG_PORT} -d ${SCOPULI_PROD_PG_DBNAME}
 
+local-db-shell:
+	PGPASSWORD=${SCOPULI_LOCAL_PG_PASSWORD} \
+	psql -U ${SCOPULI_LOCAL_PG_USERNAME} -h ${SCOPULI_LOCAL_PG_HOST} \
+	-p ${SCOPULI_LOCAL_PG_PORT} -d ${SCOPULI_LOCAL_PG_DBNAME}
+
 bootstrap-runner-prod-remote: scripts/bootstrap.sh
 	export SCOPULI_RUNNER_SSH_KEY=$(< "${SCOPULI_RUNNER_SSH_KEY_FILEPATH}")
 	ssh -A -o StrictHostKeyChecking=no ${SCOPULI_RUNNER_PROD_HOST} \
