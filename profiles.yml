@@ -10,5 +10,15 @@ ganymede:
       pass: "{{ env_var('SCOPULI_PROD_PG_PASSWORD') }}"
       dbname: scopuli_prod
       schema: wolfram
+    
+    local:
+      type: postgres
+      threads: 1
+      host: "{{ env_var('SCOPULI_LOCAL_PG_HOST') }}"
+      port: "{{ env_var('SCOPULI_LOCAL_PG_PORT') | as_number }}"
+      user: "{{ env_var('SCOPULI_LOCAL_PG_USERNAME') }}"
+      pass: "{{ env_var('SCOPULI_LOCAL_PG_PASSWORD') }}"
+      dbname: "{{ env_var('SCOPULI_LOCAL_PG_DBNAME')}}"
+      schema: wolfram
 
-  target: prod
+  target: local

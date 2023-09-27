@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: aethervest
-    database: scopuli_prod
     schema: aethervest_src  
     tables:
       - name: products
