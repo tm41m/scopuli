@@ -1,0 +1,56 @@
+version: 2.1
+
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:2023.06
+    parameters:
+      ssh:
+        type: string
+        default: "ssh -o StrictHostKeyChecking=no $SCOPULI_RUNNER_SSH_USER@$SCOPULI_RUNNER_SSH_HOST SCOPULI_RUNNER_DIR=$SCOPULI_RUNNER_DIR"
+      scp:
+        type: string
+        default: "scp -o StrictHostKeyChecking=no"
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "${SCOPULI_FINGERPRINT}"
+            - "${SCOPULI_PROD_FINGERPRINT}"
+      - run:
+          name: Set up SSH forwarding
+          command: |
+            echo "Host *" >> ~/.ssh/config
+            echo "  ForwardAgent yes" >> ~/.ssh/config
+            chmod 600 ~/.ssh/config
+      - run:
+          name: Add SSH forwarding
+          command: |
+            eval `ssh-agent -s` && ssh-add -k
+      - run:
+          name: Pull Latest Head of Main
+          command: |
+            << parameters.ssh >> "cd $SCOPULI_RUNNER_DIR/scopuli && git checkout $SCOPULI_ENV && git pull"
+      - run:
+          name: Set up server's environment variables
+          description: |
+            Sets up the server's environmnet variables. Avoid using ssh to source the variables in this step.
+            It can cause an exit 255 since the scp command precedes it.
+          command: |
+            echo "export SCOPULI_PROD_PG_HOST=${SCOPULI_PROD_PG_HOST}" >> .env
+            echo "export SCOPULI_PROD_PG_USERNAME=${SCOPULI_PROD_PG_USERNAME}" >> .env
+            echo "export SCOPULI_PROD_PG_PASSWORD=${SCOPULI_PROD_PG_PASSWORD}" >> .env
+            echo "export SCOPULI_PROD_PG_PORT=${SCOPULI_PROD_PG_PORT}" >> .env
+            echo "export SCOPULI_ENV=${SCOPULI_ENV}" >> .env
+            echo "export SCOPULI_RUNNER_DIR=${SCOPULI_RUNNER_DIR}" >> .env
+            << parameters.scp >> .env $SCOPULI_RUNNER_SSH_USER@$SCOPULI_RUNNER_SSH_HOST:/home/circleci/.env
+
+workflows:
+  deploy-to-prod:
+    jobs:
+      - deploy:
+          context:
+            - aethersphere-prod
+          filters:
+            branches:
+              only: prod
