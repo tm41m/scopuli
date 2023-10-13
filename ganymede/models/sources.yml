@@ -10,4 +10,12 @@ sources:
       - name: retailers
       - name: stores
       - name: statcan_food_prices
+  - name: static_resources
+    schema: public
+    tables:
+      - name: censusdivisions
+  - name: stahl
+    schema: stahl
+    tables:
+      - name: cd_locate_stores
 
