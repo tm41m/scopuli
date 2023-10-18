@@ -10,7 +10,7 @@ sources:
       - name: retailers
       - name: stores
       - name: statcan_food_prices
-  - name: static_resources
+  - name: static
     schema: public
     tables:
       - name: censusdivisions
