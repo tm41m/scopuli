@@ -44,6 +44,10 @@ jobs:
             echo "export SCOPULI_ENV=${SCOPULI_ENV}" >> .env
             echo "export SCOPULI_RUNNER_DIR=${SCOPULI_RUNNER_DIR}" >> .env
             << parameters.scp >> .env $SCOPULI_RUNNER_SSH_USER@$SCOPULI_RUNNER_SSH_HOST:/home/circleci/.env
+      - run:
+          name: Update the cron schedule with dbt job definitions
+          command: |
+            << parameters.ssh >> "bash $SCOPULI_RUNNER_DIR/scopuli/scheduler/schedule.sh"
 
 workflows:
   deploy-to-prod:
