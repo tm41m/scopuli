@@ -2,8 +2,7 @@ version: 2
 
 sources:
   - name: aethervest
-    database: scopuli_prod
-    schema: aethervest_src  
+    schema: aethervest_src
     tables:
       - name: products
       - name: product_listings
@@ -11,4 +10,4 @@ sources:
       - name: retailers
       - name: stores
       - name: statcan_food_prices
-
+      - name: statcan_cpi_monthly
