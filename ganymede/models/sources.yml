@@ -13,9 +13,9 @@ sources:
   - name: static
     schema: public
     tables:
-      - name: censusdivisions
+      - name: census_divisions
   - name: stahl
     schema: stahl
     tables:
-      - name: cd_locate_stores
+      - name: dim_stores
 

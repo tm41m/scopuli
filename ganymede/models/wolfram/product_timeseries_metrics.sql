@@ -11,7 +11,7 @@ with all_calendar_dates as (
   select
       acd.val as calendar_date
       , s.region as region_code
-      , s.cdname
+      , s.census_division_name
       , plh.product_id
       , plh.currency
       , plh.unit
@@ -22,7 +22,7 @@ with all_calendar_dates as (
   from all_calendar_dates acd
   left join {{ source('aethervest', 'product_listings_history') }} plh
     on acd.val > plh.effective_from and acd.val <= coalesce(plh.effective_to, '9999-01-01'::timestamp)
-  join {{ ref('cd_locate_stores')}} s
+  join {{ ref('dim_stores')}} s
     on plh.store_id = s.id
   group by
     grouping sets (
@@ -33,5 +33,5 @@ with all_calendar_dates as (
 )
 select
   *
-  , md5(concat_ws('|', calendar_date, coalesce(region_code, ''), coalesce(cdname, ''), product_id)) as md5_key
+  , md5(concat_ws('|', calendar_date, coalesce(region_code, ''), coalesce(census_division_name, ''), product_id)) as md5_key
 from transform_1
