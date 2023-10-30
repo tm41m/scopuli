@@ -17,5 +17,5 @@ select
     , store_coordinates.created_at
     , store_coordinates.updated_at
     , store_coordinates.md5_key
-from store_coordinates left join {{ source('static', 'census_divisions') }} cds
+from store_coordinates left join {{ source('static', 'statcan_census_divisions') }} cds
 on ST_Covers(cds.geom, ST_Transform(ST_SetSRID(ST_MakePoint(longitude::double precision, latitude::double precision), 4326), 3347))

@@ -16,3 +16,6 @@ bootstrap-runner-prod-remote: scripts/bootstrap.sh
 		 export SCOPULI_RUNNER_PROD_HOST=${SCOPULI_RUNNER_PROD_HOST}; \
 		 export SCOPULI_RUNNER_ENV=prod; \
 		 bash -s" < scripts/bootstrap.sh
+
+load-static:
+	shell scripts/load_static.sh
