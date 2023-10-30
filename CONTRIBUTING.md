@@ -43,6 +43,18 @@ dbt debug --target local
 
 6. To debug further, you can try to shell into the postgres with `make local-db-shell`.
 
+7. Create a file under `.git/hooks/pre-commit` and paste the script below:
+
+```
+#!/bin/bash
+
+pre-commit
+
+exit $?
+```
+
+To fix your linting complaints, run `make sqlfluff-fix`.
+
 ## Project Structure
 
 ```
