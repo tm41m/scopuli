@@ -11,11 +11,11 @@ sources:
       - name: stores
       - name: statcan_food_prices
   - name: static
-    schema: public
+    schema: static
     tables:
-      - name: census_divisions
+      - name: statcan_census_divisions
   - name: stahl
     schema: stahl
     tables:
-      - name: dim_stores
+      - name: dim_store
 

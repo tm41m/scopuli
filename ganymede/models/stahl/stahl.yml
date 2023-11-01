@@ -1,0 +1,16 @@
+
+version: 2
+
+models:
+  - name: dim_store
+    description: |
+      A dimension table containing all relevant attributes of stores. 
+    columns:
+      - name: census_division_name
+        description: |
+          This string specifies the census division each store resides in, where each census division is a StatCan-designated geographic subregion.
+          The PostGIS extension is used to locate each store within a census division, and this not null test verifies that each store has in fact been
+          associated with a census division. The set of all census divisions form a mutually disjoint cover of all of Canada, and hence each store
+          should be located within exactly one census division.   
+        tests:
+          - not_null
