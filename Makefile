@@ -16,3 +16,12 @@ bootstrap-runner-prod-remote: scripts/bootstrap.sh
 		 export SCOPULI_RUNNER_PROD_HOST=${SCOPULI_RUNNER_PROD_HOST}; \
 		 export SCOPULI_RUNNER_ENV=prod; \
 		 bash -s" < scripts/bootstrap.sh
+
+load-census-divisions:
+	bash scripts/load_census_divisions.sh
+
+sqlfluff-fix:
+	sqlfluff fix ganymede/
+
+sqlfluff-lint:
+	sqlfluff lint ganymede/
