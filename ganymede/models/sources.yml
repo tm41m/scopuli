@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: aethervest
-    schema: aethervest_src  
+    schema: aethervest_src
     tables:
       - name: products
       - name: product_listings
@@ -10,6 +10,7 @@ sources:
       - name: retailers
       - name: stores
       - name: statcan_food_prices
+      - name: statcan_cpi_monthly
   - name: static
     schema: static
     tables:
@@ -18,4 +19,3 @@ sources:
     schema: stahl
     tables:
       - name: dim_store
-
