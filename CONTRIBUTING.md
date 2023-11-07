@@ -4,7 +4,7 @@
 
 This guide was written for `python 3.8.0`. To set up a local environment for this project and have source (`*_src` schemas) mirror production state, you will have to:
 
-1. Create a virtual environment in the root folder of the project with `python3 -m venv venv`. Activate the environment with `source venv/bin/activate` and `pip install dbt-core==1.5.2 dbt-postgres==1.5.2`.
+1. Create a virtual environment in the root folder of the project with `python3 -m venv venv`. Activate the environment with `source venv/bin/activate` and `pip install dbt-core==1.5.2 dbt-postgres==1.5.2 sqlfluff==2.3.4 sqlfluff-templater-dbt==2.3.4 pre-commit==3.5.0`.
 
 2. Ask the admin @tm41m for credentials to your personal postgres development database and have your ip whitelisted to access the VPC network.
 
