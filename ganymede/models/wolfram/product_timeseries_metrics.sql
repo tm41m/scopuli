@@ -13,6 +13,7 @@ with all_calendar_dates as (
     select
         acd.val as calendar_date
         , s.region as region_code
+        , s.census_division_id
         , s.census_division_name
         , plh.product_id
         , plh.currency
