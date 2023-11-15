@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 with all_calendar_dates as (
     select date_trunc('day', dd)::date as val
