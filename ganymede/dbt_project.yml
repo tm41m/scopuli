@@ -39,3 +39,7 @@ models:
       schema: wolfram
       +materialized: view
       +post-hook: grant select on all tables in schema wolfram to daikon
+    verbinden:
+      schema: verbinden
+      +materialized: view
+      +post-hook: grant select on all tables in schema verbinden to daikon
