@@ -8,7 +8,6 @@ with store_coordinates as (
         , {{ raw_region_to_province("store_address->>'addressRegion'") }} as region_code
     from {{ source('aethervest', 'stores') }}
 )
-
 select
     store_coordinates.id
     , store_coordinates.retailer_name
@@ -17,10 +16,11 @@ select
     , store_coordinates.version
     , store_coordinates.r_id
     , store_coordinates.r_store_attributes
-    , cds.cdname as census_division_name
+    , cd.cduid as census_division_id
     , store_coordinates.region_code
     , store_coordinates.created_at
     , store_coordinates.updated_at
     , store_coordinates.md5_key
-from store_coordinates left join {{ source('static', 'statcan_census_divisions') }} as cds
-    on ST_COVERS(cds.geom, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(longitude::double precision, latitude::double precision), 4326), 3347))
+from store_coordinates
+left join {{ source('static', 'statcan_census_divisions') }} as cd
+    on ST_COVERS(cd.geom, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(store_coordinates.longitude::double precision, store_coordinates.latitude::double precision), 4326), 3347))
