@@ -15,7 +15,3 @@ sources:
     schema: static
     tables:
       - name: statcan_census_divisions
-  - name: stahl
-    schema: stahl
-    tables:
-      - name: dim_store

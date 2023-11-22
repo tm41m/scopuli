@@ -1,4 +1,4 @@
-{% macro statcan_pruid_to_provinceid(column_name) %}
+{% macro statcan_pruid_to_province(column_name) %}
     case
         when {{column_name}} = '46' then 'MB'
         when {{column_name}} = '59' then 'BC'
