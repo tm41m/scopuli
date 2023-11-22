@@ -36,7 +36,7 @@ with all_calendar_dates as (
 
 select
     transform_1.*
-    , dcd.census_division_name
+    , dcd.name as census_division_name
     , md5(
         concat_ws(
             '|'

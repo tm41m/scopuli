@@ -2,9 +2,13 @@
 templater = dbt
 dialect = postgres
 max_line_length = -1
+exclude_rules = RF04
 
 [sqlfluff:rules:references.special_chars]
 allow_space_in_identifier = True
+
+[sqlfluff:rules:references.keywords]
+ignore_words = ['name', 'type']
 
 [sqlfluff:layout:type:comma]
 line_position = leading

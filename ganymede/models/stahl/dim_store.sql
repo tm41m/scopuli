@@ -16,11 +16,11 @@ select
     , store_coordinates.version
     , store_coordinates.r_id
     , store_coordinates.r_store_attributes
-    , dcd.id as census_division_id
+    , cd.cduid as census_division_id
     , store_coordinates.region_code
     , store_coordinates.created_at
     , store_coordinates.updated_at
     , store_coordinates.md5_key
 from store_coordinates
-left join {{ ref('dim_census_division') }} as dcd
-    on ST_COVERS(dcd.geom, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(store_coordinates.longitude::double precision, store_coordinates.latitude::double precision), 4326), 3347))
+left join {{ source('static', 'statcan_census_divisions') }} as cd
+    on ST_COVERS(cd.geom, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(store_coordinates.longitude::double precision, store_coordinates.latitude::double precision), 4326), 3347))

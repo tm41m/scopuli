@@ -4,3 +4,4 @@ venv/
 logs/
 *.gitkeep
 *.user.yml
+tmp/
