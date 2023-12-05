@@ -19,7 +19,7 @@ with all_calendar_dates as (
         , plh.unit
         , null::numeric(32, 2) as avg_price_chng
         , null::bigint as product_listings_rtn
-        , avg(plh.price) as avg_price
+        , round(avg(plh.price), 2) as avg_price
         , count(*) as product_listings
     from all_calendar_dates as acd
     left join {{ source('aethervest', 'product_listings_history') }} as plh
