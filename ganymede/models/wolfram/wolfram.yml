@@ -21,3 +21,9 @@ models:
         description:
           This statistic counts the number of product listings within the specified geographic region (country, province, or census division) whose price on the given day
           is more than standard deviation away from the average of all prices of those products with the same product_id within the corresponding geographic region.
+      - name: percent_listings_outside_one_stddev
+        description:
+          Computed as (sum_outside_one_stddev) / (product_listings)
+        tests: 
+          - warn_large_values:
+              threshold: .25
