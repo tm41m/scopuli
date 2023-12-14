@@ -45,3 +45,51 @@ models:
         tests:
           - accepted_values:
               values: ['NL', 'PE', 'NS', 'NB', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU']
+  - name: dim_commercial_salmon_catch
+    description: |
+      A dimension table containing all relevant attributes of StatCan commercial salmon catch data from 1996 to 2022.
+    columns:
+      - name: fishery
+        description: |
+          Type of gear (gill net, seine, or troll) used in the fishery.
+        tests:
+          - accepted_values:
+              values: ['GILL NET', 'SEINE', 'TROLL']
+      - name: estimate_type
+        description: |
+          Relative time period of the preliminary catch-estimate (in-season or post-season). 
+        tests:
+          - accepted_values:
+              values: ['POST-SEASON', 'IN-SEASON']
+      - name: licence_area
+        description: |
+          Commercial fishery licence area. Definitions of each licence area at https://www.pac.dfo-mpo.gc.ca/fm-gp/licence-permis/areas-secteurs-eng.html.
+        tests:
+          - accepted_values:
+              values: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+      - name: calendar_year
+      - name: mgmt_area
+        description: |
+          Commercial fishery management area. Geographic locations of management areas at https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html#overview.
+      - name: vessel_count
+        description: |
+          Number of vessels fishing in the management area. This information does not exist for data between the years 1996-2004.
+      - name: boat_days
+        description: |
+          Number of days fished in the management area.
+      - name: salmon_type
+        description: |
+          Type of salmon fished (sockeye, coho, pink, chum, chinook, steelhead). No records on steelhead quantities exist between the years 1996-2004.
+      - name: kept
+        description: |
+          Number of salmon kept of the corresponding type.
+      - name: released
+        description: |
+          Number of salmon released of the corresponding type.This information does not exist for data between the years 1996-2004.
+      - name: notes
+        description: |
+          Notes pertaining to the given record. For any season and management area where there have been less than 3 vessels, data
+          is redacted in response to the Government of Canada's Privacy Act. Such records are indicated by the 'redacted' value.
+        tests:
+          - accepted_values:
+              values: ['', 'redacted']

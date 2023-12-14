@@ -15,3 +15,5 @@ sources:
     schema: static
     tables:
       - name: statcan_census_divisions
+      - name: statcan_commercial_salmon_catch_data_1996_to_2004
+      - name: statcan_commercial_salmon_catch_data_2005_to_2022
