@@ -20,6 +20,9 @@ bootstrap-runner-prod-remote: scripts/bootstrap.sh
 load-census-divisions:
 	bash scripts/load_census_divisions.sh
 
+load-commercial-salmon-data:
+	bash scripts/load_commercial_salmon_data.sh
+
 sqlfluff-fix:
 	sqlfluff fix ganymede/
 
