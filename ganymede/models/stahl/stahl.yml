@@ -45,9 +45,9 @@ models:
         tests:
           - accepted_values:
               values: ['NL', 'PE', 'NS', 'NB', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU']
-  - name: dim_commercial_salmon_catch
+  - name: statcan_commercial_salmon_catch
     description: |
-      A dimension table containing all relevant attributes of StatCan commercial salmon catch data from 1996 to 2022.
+      A table containing relevant attributes of StatCan commercial salmon catch data from 1996 to 2022.
     columns:
       - name: fishery
         description: |
