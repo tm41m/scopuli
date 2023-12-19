@@ -17,7 +17,7 @@ models:
         tests:
           - accepted_values:
               values: ['NL', 'PE', 'NS', 'NB', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU']
-      - name: sum_outside_one_stddev
+      - name: sum_listings_outside_one_stddev
         description:
           This statistic counts the number of product listings within the specified geographic region (country, province, or census division) whose price on the given day
           is more than standard deviation away from the average of all prices of those products with the same product_id within the corresponding geographic region.
