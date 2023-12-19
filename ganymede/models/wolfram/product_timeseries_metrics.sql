@@ -48,7 +48,7 @@ with all_calendar_dates as (
             when t1.region_code is not null and t1.census_division_id is not null then sum(case when (t1.residue_cd <= coalesce(t1.stddev_price_cd, 0)) then 0 else 1 end)
             when t1.region_code is not null and t1.census_division_id is null then sum(case when (t1.residue_re <= coalesce(t1.stddev_price_re, 0)) then 0 else 1 end)
             when t1.region_code is null and t1.census_division_id is null then sum(case when (t1.residue_ca <= coalesce(t1.stddev_price_ca, 0)) then 0 else 1 end)
-        end as sum_outside_one_stddev
+        end as sum_listings_outside_one_stddev
         , count(*) as product_listings
     from transform_1 as t1
     group by
