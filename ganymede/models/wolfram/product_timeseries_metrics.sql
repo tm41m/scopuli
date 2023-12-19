@@ -12,40 +12,66 @@ with all_calendar_dates as (
 , transform_1 as (
     select
         acd.val as calendar_date
+        , plh.product_id
+        , plh.product_listing_id
         , ds.region_code
         , ds.census_division_id
-        , plh.product_id
+        , plh.price
         , plh.currency
         , plh.unit
-        , null::numeric(32, 2) as avg_price_chng
-        , null::bigint as product_listings_rtn
-        , avg(plh.price) as avg_price
-        , count(*) as product_listings
+        , abs(plh.price - avg(plh.price) over (partition by acd.val, plh.product_id, ds.region_code, ds.census_division_id, plh.currency, plh.unit)) as residue_cd
+        , abs(plh.price - avg(plh.price) over (partition by acd.val, plh.product_id, ds.region_code, plh.currency, plh.unit)) as residue_re
+        , abs(plh.price - avg(plh.price) over (partition by acd.val, plh.product_id, plh.currency, plh.unit)) as residue_ca
+        , avg(plh.price) over (partition by acd.val, plh.product_id, ds.region_code, ds.census_division_id, plh.currency, plh.unit) as avg_price
+        , stddev(plh.price) over (partition by acd.val, plh.product_id, ds.region_code, ds.census_division_id, plh.currency, plh.unit) as stddev_price_cd
+        , stddev(plh.price) over (partition by acd.val, plh.product_id, ds.region_code, plh.currency, plh.unit) as stddev_price_re
+        , stddev(plh.price) over (partition by acd.val, plh.product_id, plh.currency, plh.unit) as stddev_price_ca
     from all_calendar_dates as acd
     left join {{ source('aethervest', 'product_listings_history') }} as plh
         on acd.val > plh.effective_from and acd.val <= coalesce(plh.effective_to, '9999-01-01'::timestamp)
     inner join {{ ref('dim_store') }} as ds
         on plh.store_id = ds.id
+)
+
+, transform_2 as (
+    select
+        t1.calendar_date
+        , t1.product_id
+        , t1.region_code
+        , t1.census_division_id
+        , t1.currency
+        , t1.unit
+        , null::numeric(32, 2) as avg_price_chng
+        , null::bigint as product_listings_rtn
+        , round(avg(t1.price), 2) as avg_price
+        , case
+            when t1.region_code is not null and t1.census_division_id is not null then sum(case when (t1.residue_cd <= coalesce(t1.stddev_price_cd, 0)) then 0 else 1 end)
+            when t1.region_code is not null and t1.census_division_id is null then sum(case when (t1.residue_re <= coalesce(t1.stddev_price_re, 0)) then 0 else 1 end)
+            when t1.region_code is null and t1.census_division_id is null then sum(case when (t1.residue_ca <= coalesce(t1.stddev_price_ca, 0)) then 0 else 1 end)
+        end as sum_listings_outside_one_stddev
+        , count(*) as product_listings
+    from transform_1 as t1
     group by
         grouping sets (
-                (1, 2, 3, 4, 5, 6)
-                , (1, 2, 4, 5, 6)
-                , (1, 4, 5, 6)
+                (t1.calendar_date, t1.product_id, t1.region_code, t1.census_division_id, t1.currency, t1.unit)
+                , (t1.calendar_date, t1.product_id, t1.region_code, t1.currency, t1.unit)
+                , (t1.calendar_date, t1.product_id, t1.currency, t1.unit)
         )
 )
 
 select
-    transform_1.*
+    t2.*
     , dcd.name as census_division_name
+    , t2.sum_outside_one_stddev / t2.product_listings as percent_listings_outside_one_stddev
     , md5(
         concat_ws(
             '|'
-            , transform_1.calendar_date
-            , coalesce(transform_1.region_code, '')
-            , coalesce(transform_1.census_division_id, '')
-            , transform_1.product_id
+            , t2.calendar_date
+            , coalesce(t2.region_code, '')
+            , coalesce(t2.census_division_id, '')
+            , t2.product_id
         )
     ) as md5_key
-from transform_1
+from transform_2 as t2
 left join {{ ref('dim_census_division') }} as dcd
-    on transform_1.census_division_id = dcd.id
+    on t2.census_division_id = dcd.id

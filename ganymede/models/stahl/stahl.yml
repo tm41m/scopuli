@@ -19,7 +19,7 @@ models:
           The PostGIS extension is used to locate each store within a census division, and this not null test verifies that each store has in fact been
           associated with a census division. The set of all census divisions form a mutually disjoint cover of all of Canada, and hence each store
           should be located within exactly one census division.   
-      - name: census_division_type
+      - name: type
         description: |
           The census division type comes from the Canadian government census definitions.
           This current resource contains only CDR (Census Divisions / de recensement) used
@@ -30,7 +30,7 @@ models:
           https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/definition-eng.cfm?ID=geo008
         tests:
           - accepted_values:
-              values: ['CDR']
+              values: ['CDR', 'CTY', 'CT', 'TÉ', 'MRC', 'UC', 'RM', 'DM', 'DIS', 'RD', 'REG', 'TER']
       - name: land_area
         description: |
           Land area is the area in square kilometres of the land-based portions
